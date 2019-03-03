@@ -1,5 +1,5 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
-<p align="center"><img style="width: 150px" src="https://dwglogo.com/wp-content/uploads/2017/09/Vue-logo-001.svg"></p>
+<p align="center"><img style="width: 50px" src="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/036/square_256/vue.png"></p>
 
 ## Frontend environment
 
