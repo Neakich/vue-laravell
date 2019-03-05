@@ -3,7 +3,8 @@
     "scripts": {
         "dev": "nuxt -c client/nuxt.config.js",
         "build": "nuxt build -c client/nuxt.config.js",
-        "start": "nuxt start -c client/nuxt.config.js"
+        "start": "nuxt start -c client/nuxt.config.js",
+        "generate": "nuxt generate"
     },
     "devDependencies": {
         "axios": "^0.18.0",
