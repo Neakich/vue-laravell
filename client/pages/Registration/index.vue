@@ -103,7 +103,14 @@
 
 <script>
 import axios from 'axios';
+import { usersRef } from '../../firebase'
+
 export default {
+    firebase() {
+      return {
+        users: usersRef,
+      }
+    },
     data(){
         return {
             valid: false,
@@ -139,39 +146,37 @@ export default {
         }
     },
     methods: {
-        async addUser(name){
+        successAddingMsgShow() {
+            this.dialog = true;
+            this.response.msg = "Ваша регистрация прошла успешно!";
+            this.response.type = "success";
+        },
+        showErrorMsg(){
+            this.response.msg = "Пользователь с номером уже зарегистрирован!";
+            this.response.type = "warning";
+        },
+        isExist(phone){
+            return this.users.find(user => user.phone === phone)
+        },
+        addUser(name){
             if (this.$refs.form.validate()) {
-                this.loading = true;
-                try {
-                    const postdata = {
-                        first_name: this.form.name,
-                        phone: `${this.form.phonePrefix}${this.form.phone}`,
+                    this.loading = true;
+                    const phone = `${this.form.phonePrefix}${this.form.phone}`;
+                    
+                    if(this.isExist(phone)) {
+                        this.dialog = true;
+                        this.showErrorMsg()
+                        this.loading = false;
+                        return 
+                    }
+
+                    const newUser = {
+                        name: this.form.name,
+                        phone,
                         sex: this.form.sex,
                         personal_data: this.form.terms,
                     };
-                    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-                    axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
-                    const data = await axios.post('http://127.0.0.1:3000/registration', 
-                        postdata 
-                    )
-                    if(data.status === 200) {
-                        this.dialog = true;
-                        this.response.msg = "Ваша регистрация прошла успешно!";
-                        this.response.type = "success";
-                    } 
-                } catch (e){
-                    console.log(e.name + ': ' + e.message);
-                    const exist = e.message.indexOf('422') > 0;
-                    if(exist) {
-                        this.dialog = true;
-                        this.response.msg = "Пользователь с таким именем уже зарегистрирован!";
-                        this.response.type = "warning";
-                    } else {
-                        this.dialog = true;
-                        this.response.msg = 'Ошибка соединения';
-                        this.response.type = "error";
-                    }
-                }
+                    usersRef.push(newUser, this.successAddingMsgShow); 
                 this.loading = false;
             }
         }

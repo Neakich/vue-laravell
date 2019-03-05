@@ -17,7 +17,7 @@
     :search="search"
   >
     <template slot="items" slot-scope="props">
-      <td>{{ props.item.first_name }}</td>
+      <td>{{ props.item.name }}</td>
       <td class="text-xs-left">{{ props.item.phone }}</td>
       <td class="text-xs-center">{{ props.item.sex }}</td>
     </template>
@@ -26,10 +26,16 @@
 </template>
 
 <script>
+  import { usersRef } from '../../firebase'
   export default {
-    async asyncData({ $axios }) {
-        const users = await $axios.$get('http://127.0.0.1:3000/users')
-        return { users }
+    // async asyncData({ $axios }) {
+    //     const users = await $axios.$get('http://127.0.0.1:3000/users')
+    //     return { users }
+    // },
+    firebase() {
+      return {
+        users: usersRef,
+      }
     },
     data () {
       return {

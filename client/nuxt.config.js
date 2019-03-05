@@ -29,6 +29,7 @@ module.exports = {
 
   plugins: [
     '~/plugins/vuetify',
+    '~/plugins/vuefire',
   ],
 
   modules: [
